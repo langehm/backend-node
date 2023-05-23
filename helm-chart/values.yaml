@@ -1,16 +1,17 @@
-# Default values for backend-node-chart.
+# Default values for helm-chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+  repository: "gitlab.lrz.de:5005/seminararbeit/pull/node-backend"
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
+  pullSecret: "regcred"
 
-imagePullSecrets: []
+imagePullSecrets: [name: "regred"]
 nameOverride: ""
 fullnameOverride: ""
 
@@ -37,8 +38,10 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 80
+  type: LoadBalancer #expose
+  Port: 30000 #// expose to node 
+  targetPort: 8080 #// App server listening on this port
+  internalPort: 3000 #// Internal exposed within the pod
 
 ingress:
   enabled: false
