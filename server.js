@@ -12,8 +12,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-
-
 app.get('/health-check',(req,res)=> {
   res.send ("Health check passed");
 });
